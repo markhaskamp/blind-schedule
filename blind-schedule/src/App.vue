@@ -3,7 +3,7 @@ import BlindSchedule from './components/BlindSchedule.vue'
 </script>
 
 <template>
-  <BlindSchedule msg="eddie would go" />
+  <BlindSchedule />
 </template>
 
 <style scoped>
