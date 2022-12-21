@@ -16,6 +16,13 @@ export default {
       currentStep: 0,
       countDownValue: "",
       isRunning: true,
+
+      isAcknowledged: true,
+      isWarning1: false,
+      isWarning2: false,
+      isWarning3: false,
+      isWarning4: false,
+
       blindSchedule: [
         { step: 1, minutes: .25, smallBlind: 50, bigBlind: 100},
         { step: 2, minutes: .25, smallBlind: 100, bigBlind: 200},
@@ -33,6 +40,21 @@ export default {
           let display = this.getDisplayTimer()
           this.countDownValue = `${display.minutes}:${display.seconds}`
         }
+
+        if (this.isWarning1) {
+          this.isWarning1 = false
+          this.isWarning2 = true
+        } else if (this.isWarning2) {
+          this.isWarning2 = false
+          this.isWarning3 = true
+        } else if (this.isWarning3) {
+          this.isWarning3 = false
+          this.isWarning4 = true
+        } else if (this.isWarning4) {
+          this.isWarning4 = false
+          this.isWarning1 = true
+        }
+        
     },
 
     getDisplayTimer() {
@@ -41,24 +63,35 @@ export default {
       let bankedSeconds = this.bankedElapsedSeconds.reduce((acc, cur) => acc + cur, 0)
       elapsedSeconds += bankedSeconds
 
-      if (elapsedSeconds > (this.blindSchedule[this.currentStep]['minutes'] * 60)) {
-        this.startSeconds = Math.floor(Date.now() / 1000)
-        this.bankedElapsedSeconds = []
-        this.currentStep += 1
-        let minutes = this.blindSchedule[this.currentStep]['minutes']
-        if (minutes < 1) {
-          minutes = 0
-        }
-        return {"minutes": minutes , "seconds": "00"}
-      }
-      let x = ((this.blindSchedule[this.currentStep]['minutes'] * 60) - elapsedSeconds)
-      let minutes = Math.floor(x / 60)
-      let seconds = Math.floor(x % 60)
-      if (seconds < 10) {
-        return {"minutes": minutes, "seconds": `0${seconds}`}
+      if (this.isNextStep(elapsedSeconds)) {
+        this.startNextStep()
       } else {
-        return {"minutes": minutes, "seconds": seconds}
+        let x = ((this.blindSchedule[this.currentStep]['minutes'] * 60) - elapsedSeconds)
+        let minutes = Math.floor(x / 60)
+        let seconds = Math.floor(x % 60)
+        if (seconds < 10) {
+          return {"minutes": minutes, "seconds": `0${seconds}`}
+        } else {
+          return {"minutes": minutes, "seconds": seconds}
+        }
       }
+    },
+
+    isNextStep(elapsedSeconds) {
+      return (elapsedSeconds > (this.blindSchedule[this.currentStep]['minutes'] * 60))
+    },
+
+    startNextStep() {
+      this.startSeconds = Math.floor(Date.now() / 1000)
+      this.bankedElapsedSeconds = []
+      this.currentStep += 1
+      let minutes = this.blindSchedule[this.currentStep]['minutes']
+      if (minutes < 1) {
+        minutes = 0
+      }
+      this.isAcknowledged = false
+      this.isWarning1 = true
+      return {"minutes": minutes , "seconds": "00"}
     },
 
     handlePauseClick() {
@@ -70,6 +103,14 @@ export default {
         this.startSeconds = Math.floor(Date.now() / 1000)
       }
       this.isRunning = !this.isRunning
+    },
+
+    handleAckClick() {
+      this.isAcknowledged = true
+      this.isWarning1 = false
+      this.isWarning2 = false
+      this.isWarning3 = false
+      this.isWarning4 = false
     }
 
   }
@@ -79,9 +120,15 @@ export default {
 
 <template>
   <div>
-    <div class="timerLeft"/>
-    <div class="timer">{{ countDownValue }}</div> 
-    <div class="timerRight"/>
+    <div class="timerLeft">&nbsp;</div>
+    <div class="timer">
+      <span :class="{ warningNone: isAcknowledged, warning1: isWarning1, warning2: isWarning2, warning3: isWarning3, warning4: isWarning4 }">{{ countDownValue }}
+      </span>
+    </div>
+    <div class="timerRight">
+      <button v-if="!isAcknowledged" @click="handleAckClick">Ack</button>
+      <span v-else>&nbsp;</span>
+    </div>
   </div>
   <div class="timerControls" style="clear:left">
     <button id="pauseButton" @click="handlePauseClick">{{ this.isRunning ? 'Pause' : 'Resume' }}</button>
@@ -99,7 +146,6 @@ export default {
 
 <style scoped>
 .timerLeft {
-  border: 1px solid red;
   width: 14%;
   float: left;
 }
@@ -112,9 +158,28 @@ export default {
   /* font-family: didot; */
   font-size: 4.0em;
 }
+.warningNone {
+  color: lightgreen;
+  background-color: #696969;
+}
+.warning1 {
+  color: white;
+  background-color: red;
+}
+.warning2 {
+  color: white;
+  background-color: red;
+}
+.warning3 {
+  color: red;
+  background-color: yellow;
+}
+.warning4 {
+  color: red;
+  background-color: yellow;
+}
 .timerRight {
   float: left;
-  border: 1px solid red;
   text-align: right;
   width: 14%;
 }
