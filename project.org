@@ -1,0 +1,16 @@
+
+
+* To Do
+** styles
+*** different timer style for
+**** waiting for acknowledge
+**** paused
+**** < 3 minutes remaining
+** acknowledge button when timer hits 0
+*** "aggressive" background style while waiting
+*** resets to normal upon acknowledgement
+** pause, restart
+** reset
+   or just select button by each step
+** clicking on minute brings up text box to manually set minutes
+*** also works in the schedule section
