@@ -17,11 +17,12 @@ export default {
       countDownValue: "",
       isRunning: true,
       blindSchedule: [
-        { step: 1, minutes: 0.25, smallBlind: 50, bigBlind: 100},
-        { step: 2, minutes: 0.25, smallBlind: 100, bigBlind: 200},
-        { step: 3, minutes: 0.5, smallBlind: 150, bigBlind: 300},
-        { step: 4, minutes: 15, smallBlind: 200, bigBlind: 400},
-        { step: 5, minutes: 15, smallBlind: 250, bigBlind: 500}
+        { step: 1, minutes: .25, smallBlind: 50, bigBlind: 100},
+        { step: 2, minutes: .25, smallBlind: 100, bigBlind: 200},
+        { step: 3, minutes: .25, smallBlind: 150, bigBlind: 300},
+        { step: 4, minutes: .50, smallBlind: 200, bigBlind: 400},
+        { step: 5, minutes: 15, smallBlind: 250, bigBlind: 500},
+        { step: 6, minutes: 15, smallBlind: 300, bigBlind: 600}
       ]
     }
   },
@@ -77,8 +78,12 @@ export default {
 </script>
 
 <template>
-  <div class="timer">{{ countDownValue }}</div> 
-  <div class="timerControls">
+  <div>
+    <div class="timerLeft"/>
+    <div class="timer">{{ countDownValue }}</div> 
+    <div class="timerRight"/>
+  </div>
+  <div class="timerControls" style="clear:left">
     <button id="pauseButton" @click="handlePauseClick">{{ this.isRunning ? 'Pause' : 'Resume' }}</button>
   </div>
   <div v-for="s in this.blindSchedule" :key="s.step">
@@ -93,6 +98,26 @@ export default {
 </template>
 
 <style scoped>
+.timerLeft {
+  border: 1px solid red;
+  width: 14%;
+  float: left;
+}
+.timer {
+  width: 70%;
+  float: left;
+  color: lightgreen;
+  background-color: #696969;
+  font-family: monaco;
+  /* font-family: didot; */
+  font-size: 4.0em;
+}
+.timerRight {
+  float: left;
+  border: 1px solid red;
+  text-align: right;
+  width: 14%;
+}
 .currentstep {
   color: #006600;
   background-color: white;
