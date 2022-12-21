@@ -55,7 +55,10 @@ export default {
 </script>
 
 <template>
-  <h1>{{ countDownValue }}</h1>
+  <div class="timer">{{ countDownValue }}</div> 
+  <div class="timerControls">
+    <input type="button" value="Pause"/>
+  </div>
   <div v-for="s in this.blindSchedule" :key="s.step">
     <div :class="{ currentstep: (s.step == this.currentStep+1) }">
       <span>{{s.step}}</span> - 
@@ -70,5 +73,9 @@ export default {
 <style scoped>
 .currentstep {
   border: 1px solid red;
+}
+.timerControls {
+  padding-top: 0.5em;
+  padding-bottom: 1.5em;
 }
 </style>
