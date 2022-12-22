@@ -122,8 +122,7 @@ export default {
   <div>
     <div class="timerLeft">&nbsp;</div>
     <div class="timer">
-      <span :class="{ warningNone: isAcknowledged, warning1: isWarning1, warning2: isWarning2, warning3: isWarning3, warning4: isWarning4 }">{{ countDownValue }}
-      </span>
+      <span :class="{ warningNone: isAcknowledged, warning1: isWarning1, warning2: isWarning2, warning3: isWarning3, warning4: isWarning4 }">{{ countDownValue }}</span>
     </div>
     <div class="timerRight">
       <button v-if="!isAcknowledged" @click="handleAckClick">Ack</button>
@@ -133,11 +132,15 @@ export default {
   <div class="timerControls" style="clear:left">
     <button id="pauseButton" @click="handlePauseClick">{{ this.isRunning ? 'Pause' : 'Resume' }}</button>
   </div>
+  <div class="schedule" style="textalign: center">
+    <span class="duration">duration</span>
+    <span class="small">small</span>
+    <span class="big">big</span>
+  </div>
   <div v-for="s in this.blindSchedule" :key="s.step">
-    <div :class="{ currentstep: (s.step == this.currentStep+1) }">
-      <span>{{s.step}}</span> - 
-      <span>{{s.minutes}}</span> - 
-      <span>{{s.smallBlind}}</span> - 
+    <div :class="['schedule', { currentstep: (s.step == this.currentStep+1) }]">
+      <span>{{s.minutes}}</span>
+      <span>{{s.smallBlind}}</span>
       <span>{{s.bigBlind}}</span>
     </div>
   </div>
@@ -155,7 +158,6 @@ export default {
   color: lightgreen;
   background-color: #696969;
   font-family: monaco;
-  /* font-family: didot; */
   font-size: 4.0em;
 }
 .warningNone {
@@ -195,5 +197,10 @@ export default {
 #pauseButton {
   width: 100px;
   height: 2.25em;
+}
+.schedule span {
+  display: inline-block;
+  width: 125px;
+  font-size: 2.25em;
 }
 </style>
