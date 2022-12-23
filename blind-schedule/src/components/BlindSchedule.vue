@@ -24,12 +24,14 @@ export default {
       isWarning4: false,
 
       blindSchedule: [
-        { step: 1, minutes: .25, smallBlind: 50, bigBlind: 100},
-        { step: 2, minutes: .25, smallBlind: 100, bigBlind: 200},
-        { step: 3, minutes: .25, smallBlind: 150, bigBlind: 300},
-        { step: 4, minutes: .50, smallBlind: 200, bigBlind: 400},
+        { step: 1, minutes: 30, smallBlind: 50, bigBlind: 100},
+        { step: 2, minutes: 30, smallBlind: 100, bigBlind: 200},
+        { step: 3, minutes: 30, smallBlind: 150, bigBlind: 300},
+        { step: 4, minutes: 15, smallBlind: 200, bigBlind: 400},
         { step: 5, minutes: 15, smallBlind: 250, bigBlind: 500},
-        { step: 6, minutes: 15, smallBlind: 300, bigBlind: 600}
+        { step: 6, minutes: 15, smallBlind: 300, bigBlind: 600},
+        { step: 7, minutes: 15, smallBlind: 400, bigBlind: 800},
+        { step: 8, minutes: 15, smallBlind: 500, bigBlind: 1000}
       ]
     }
   },
@@ -133,15 +135,17 @@ export default {
     <button id="pauseButton" @click="handlePauseClick">{{ this.isRunning ? 'Pause' : 'Resume' }}</button>
   </div>
   <div class="schedule" style="textalign: center">
-    <span class="duration">duration</span>
+    <span class="duration">&nbsp;</span>
     <span class="small">small</span>
     <span class="big">big</span>
+    <span class="big">&nbsp;</span>
   </div>
   <div v-for="s in this.blindSchedule" :key="s.step">
     <div :class="['schedule', { currentstep: (s.step == this.currentStep+1) }]">
       <span>{{s.minutes}}</span>
       <span>{{s.smallBlind}}</span>
       <span>{{s.bigBlind}}</span>
+      <span><button class="resetButton">reset</button></span>
     </div>
   </div>
 
@@ -202,5 +206,9 @@ export default {
   display: inline-block;
   width: 125px;
   font-size: 2.25em;
+}
+.resetButton {
+  vertical-align: middle;
+  height: 2.25em;
 }
 </style>
