@@ -24,6 +24,7 @@ export default {
       isWarning4: false,
 
       blindSchedule: [
+        { step: 0, minutes: .25, smallBlind: 50, bigBlind: 100},
         { step: 1, minutes: 30, smallBlind: 50, bigBlind: 100},
         { step: 2, minutes: 30, smallBlind: 100, bigBlind: 200},
         { step: 3, minutes: 30, smallBlind: 150, bigBlind: 300},
@@ -113,6 +114,12 @@ export default {
       this.isWarning2 = false
       this.isWarning3 = false
       this.isWarning4 = false
+    },
+
+    handleResetClick(n) {
+      this.currentStep = n
+      this.startSeconds = Math.floor(Date.now() / 1000)
+      bankedElapsedSeconds = []
     }
 
   }
@@ -141,11 +148,11 @@ export default {
     <span class="big">&nbsp;</span>
   </div>
   <div v-for="s in this.blindSchedule" :key="s.step">
-    <div :class="['schedule', { currentstep: (s.step == this.currentStep+1) }]">
+    <div :class="['schedule', { currentstep: (s.step == this.currentStep) }]">
       <span>{{s.minutes}}</span>
       <span>{{s.smallBlind}}</span>
       <span>{{s.bigBlind}}</span>
-      <span><button class="resetButton">reset</button></span>
+      <span><button class="resetButton" @click="handleResetClick(s.step)">reset</button></span>
     </div>
   </div>
 
