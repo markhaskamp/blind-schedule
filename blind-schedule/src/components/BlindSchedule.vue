@@ -119,7 +119,9 @@ export default {
     handleResetClick(n) {
       this.currentStep = n
       this.startSeconds = Math.floor(Date.now() / 1000)
-      bankedElapsedSeconds = []
+      this.bankedElapsedSeconds = []
+      this.smallBlind = this.blindSchedule[this.currentStep]['smallBlind']
+      this.bigBlind = this.blindSchedule[this.currentStep]['bigBlind']
     }
 
   }
@@ -131,7 +133,9 @@ export default {
   <div>
     <div class="timerLeft">&nbsp;</div>
     <div class="timer">
+      <span id="smallBlind">{{ this.blindSchedule[currentStep]['smallBlind'] }}</span>
       <span :class="{ warningNone: isAcknowledged, warning1: isWarning1, warning2: isWarning2, warning3: isWarning3, warning4: isWarning4 }">{{ countDownValue }}</span>
+      <span id="bigBlind">{{ this.blindSchedule[currentStep]['bigBlind'] }}</span>
     </div>
     <div class="timerRight">
       <button v-if="!isAcknowledged" @click="handleAckClick">Ack</button>
@@ -159,6 +163,20 @@ export default {
 </template>
 
 <style scoped>
+#smallBlind {
+  width: 25%;
+  display: inline-block;
+  text-align: left;
+  font-size: 0.70em;
+  color: #c9c9c9;
+}
+#bigBlind {
+  width: 25%;
+  display: inline-block;
+  text-align: right;
+  font-size: 0.70em;
+  color: #c9c9c9;
+}
 .timerLeft {
   width: 14%;
   float: left;
