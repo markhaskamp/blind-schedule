@@ -229,7 +229,7 @@ export default {
 }
 .schedule span {
   display: inline-block;
-  width: 125px;
+  width: 75px;
   font-size: 1.10em;
 }
 .resetButton {
