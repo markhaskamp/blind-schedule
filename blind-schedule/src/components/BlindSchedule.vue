@@ -187,7 +187,7 @@ export default {
   color: lightgreen;
   background-color: #696969;
   font-family: monaco;
-  font-size: 4.0em;
+  font-size: 2.50em;
 }
 .warningNone {
   color: lightgreen;
@@ -230,7 +230,7 @@ export default {
 .schedule span {
   display: inline-block;
   width: 125px;
-  font-size: 2.25em;
+  font-size: 1.25em;
 }
 .resetButton {
   vertical-align: middle;
